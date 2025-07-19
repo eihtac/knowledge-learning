@@ -4,12 +4,29 @@
 /frontend/tmp/
 /frontend/coverage/
 /frontend/.angular/
+/frontend/.angular/cache
+/frontend/.angular-cli.json
+/frontend/.sass-cache/
+/frontend/connect.lock
+/frontend/libpeerconnection.log
+/frontend/testem.log
+/frontend/typings/
+/frontend/.idea/
+/frontend/.project
+/frontend/.classpath
+/frontend/.c9/
+/frontend/*.launch
+/frontend/.settings/
+/frontend/*.sublime-workspace
+/frontend/.vscode/*
+!frontend/.vscode/settings.json
+!frontend/.vscode/tasks.json
+!frontend/.vscode/launch.json
+!frontend/.vscode/extensions.json
 /frontend/node_modules/
 /frontend/package-lock.json
 /frontend/yarn.lock
 /frontend/.env
-/frontend/.angular-cli.json
-/frontend/.ng/
 /frontend/*.tsbuildinfo
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
@@ -17,14 +34,22 @@
 
 # Symfony
 /backend/.env.local
+/backend/.env.local.php
+/backend/.env.*.local
 /backend/vendor/
+/backend/var/
 /backend/var/cache/
 /backend/var/log/
 /backend/var/sessions/
+/backend/config/secrets/prod/prod.decrypt.private.php
+/backend/public/bundles/
+/backend/public/assets/
+/backend/assets/vendor/
 /backend/config/jwt/private.pem
 /backend/config/jwt/public.pem
 /backend/phpunit.result.cache
 /backend/phpunit.xml.dist
+/backend/.phpunit.cache/
 
 
 .DS_Store

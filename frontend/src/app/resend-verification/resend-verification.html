@@ -1,0 +1,12 @@
+<main>
+    <h1>Renvoyer l'email de vérification</h1>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <label for="email">Email :</label>
+        <input id="email" type="email" formControlName="email"><br>
+        <button type="submit">Renvoyer</button>
+    </form>
+
+    <div *ngIf="message" role="status" class="status">{{ message }}</div>
+    <div *ngIf="error" role="alert" class="alert">{{ error }}</div>
+</main>

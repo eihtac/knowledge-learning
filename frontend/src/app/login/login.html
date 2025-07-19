@@ -1,0 +1,29 @@
+<main>
+    <h1>Connexion</h1>
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+        <div class="form-section">
+            <label for="email">Email :</label>
+            <input id="email" type="email" formControlName="email"/>
+            <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                Veuillez entrer un email valide.
+            </small>
+        </div>
+
+        <div class="form-section">
+            <label for="password">Mot de passe :</label>
+            <input id="password" type="password" formControlName="password"/>
+            <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                Veuillez entrer votre mot de passe.
+            </small>
+        </div>
+
+        <button type="submit">Se connecter</button> <br>
+        <a routerLink="/register">Pas encore inscrit ?</a> <br>
+        <a routerLink="/resend-verification">Renvoyer le lien de confirmation</a>
+
+    </form>
+
+    <div *ngIf="successMessage" role="status" class="status">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" role="alert" class="alert">{{ errorMessage }}</div>
+</main>

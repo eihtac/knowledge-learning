@@ -1,0 +1,19 @@
+<header>
+    <a routerLink="/"><img src="assets/logo.jpg" alt="Logo Knowledge Learning"></a>
+    <nav>
+        <ul>
+            <li><a routerLink="/">Accueil</a></li>
+            <li><a routerLink="/catalog">Formations</a></li>
+
+            <ng-container *ngIf="isLoggedIn">
+                <li><button (click)="logout()">Déconnexion</button></li>
+            </ng-container>
+
+            <ng-container *ngIf="!isLoggedIn">
+                <li><a routerLink="/login">Connexion</a></li>
+                <li><a routerLink="/register">Inscription</a></li>
+            </ng-container>
+            
+        </ul>
+    </nav>
+</header>

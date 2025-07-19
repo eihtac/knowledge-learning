@@ -1,0 +1,58 @@
+@font-face {
+    font-family: 'comic-sans-ms';
+    src: url('assets/fonts/comic-sans-ms.woff') format('woff'),
+         url('assets/fonts/comic-sans-ms.ttf') format('truetype');
+}
+
+html {
+    height: 100%;
+
+    body {
+        font-family: 'comic-sans-ms', sans-serif;
+        background-color: #f1f8fc;
+        color: #384050;
+        margin: 0;
+        height: 100%;
+    
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 73%;
+
+            h1 {
+                color: #00497c;
+            }
+
+            input {
+                background-color: #f1f8fc;
+                border: 1px solid #00497c;
+                border-radius: 1rem;
+                padding: 0.5rem;
+            }
+
+            button {
+                padding: 0.5rem 1rem;
+                background-color: #0074c7;
+                color: #f1f8fc;
+                border-radius: 1rem;
+                border: #0074c7;
+                font-family: 'comic-sans-ms', sans-serif;
+            }
+
+            button:hover {
+                background-color: #00497c;
+                cursor: pointer;
+            }
+
+            .alert {
+                color: #cd2c2e;
+            }
+
+            .status {
+                color: #82b864;
+            }
+        }
+    }
+}

@@ -1,0 +1,35 @@
+<main>
+  <h1>Inscription</h1>
+  
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+    <div class="form-section">
+      <label for="name">Nom :</label>
+      <input id="name" type="text" formControlName="name"/>
+      <small *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+        Le nom est requis et doit contenir au moins 3 caractères.
+      </small>
+    </div>
+
+    <div class="form-section">
+      <label for="email">Email :</label>
+      <input id="email" type="email" formControlName="email"/>
+      <small *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        Veuillez entrer un email valide.
+      </small>
+    </div>
+
+    <div class="form-section">
+      <label for="password">Mot de passe :</label>
+      <input id="password" type="password" formControlName="password"/>
+      <small *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        Le mot de passe est requis et doit contenir au moins 8 caractères.
+      </small>
+    </div>
+
+    <button type="submit">S'inscrire</button> <br>
+    <a routerLink="/login">Déjà inscrit ?</a>
+
+  </form>
+
+  <div *ngIf="errorMessage" role="alert" class="alert">{{ errorMessage }}</div>
+</main>
