@@ -1,0 +1,31 @@
+# Angular 
+/frontend/dist/
+/frontend/out-tsc/
+/frontend/tmp/
+/frontend/coverage/
+/frontend/.angular/
+/frontend/node_modules/
+/frontend/package-lock.json
+/frontend/yarn.lock
+/frontend/.env
+/frontend/.angular-cli.json
+/frontend/.ng/
+/frontend/*.tsbuildinfo
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+
+# Symfony
+/backend/.env.local
+/backend/vendor/
+/backend/var/cache/
+/backend/var/log/
+/backend/var/sessions/
+/backend/config/jwt/private.pem
+/backend/config/jwt/public.pem
+/backend/phpunit.result.cache
+/backend/phpunit.xml.dist
+
+
+.DS_Store
+Thumbs.db
