@@ -1,0 +1,32 @@
+<main>
+    <div *ngIf="!isLoggedIn" class="alert">Vous devez être connecté et avoir un compte vérifié pour pouvoir acheter un cursus ou une leçon.</div>
+    <div *ngIf="isLoggedIn && !user.isVerified" class="alert">Vous devez avoir un compte vérifié par mail pour pouvoir acheter un cursus ou une leçon.</div>
+
+    <h1>Leçons proposées : </h1>
+
+    <section *ngFor="let topic of catalog">
+        <h2 (click)="topic.open = !topic.open">{{ topic.name }}</h2>
+
+        <div *ngIf="topic.open">
+            <div *ngFor="let course of topic.courses">
+                <div class="inline">
+                    <h3 (click)="course.open = !course.open">{{ course.title }} - {{ course.price }} €</h3>
+                    
+                    <div *ngIf="isLoggedIn && isVerified">
+                        <button>Acheter</button>
+                    </div>
+                </div>
+
+                <div *ngIf="course.open">
+                    <div *ngFor="let lesson of course.lessons" class="inline">
+                        <h4>{{ lesson.title }} - {{ lesson.price }} €</h4>
+
+                        <div *ngIf="isLoggedIn && isVerified">
+                            <button>Acheter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

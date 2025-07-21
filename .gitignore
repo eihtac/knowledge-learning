@@ -36,6 +36,7 @@
 /backend/.env.local
 /backend/.env.local.php
 /backend/.env.*.local
+/backend/.env.dev
 /backend/vendor/
 /backend/var/
 /backend/var/cache/

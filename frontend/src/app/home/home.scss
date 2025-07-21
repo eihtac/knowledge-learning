@@ -1,0 +1,34 @@
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5rem;
+
+    .status {
+        color: #82b864;
+    }
+
+    h2 {
+        color: #00497c;
+    }
+
+    ul {
+        display: flex;
+        gap: 2rem;
+
+        li {
+            list-style: none;
+
+            button {
+                background: none;
+                color: #0074c7;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            button:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

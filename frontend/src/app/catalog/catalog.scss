@@ -1,0 +1,32 @@
+.alert {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+section {
+    border: 1px solid #00497c;
+    width: 50%;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #0074c717;
+
+    h2 {
+        color: #0074c7;
+    }
+
+    h3 {
+        color: #00497c;
+    }
+
+    h2:hover, h3:hover {
+        cursor: pointer;
+    }
+
+    .inline {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+}
