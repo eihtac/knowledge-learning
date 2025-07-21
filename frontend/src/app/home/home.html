@@ -1,1 +1,22 @@
-<p>home works!</p>
+<main>
+    <section>
+        <div *ngIf="message" class="status">{{ message }}</div>
+
+        <h1>Bienvenue sur Knowledge Learning !</h1>
+        <p>
+            Nous vous proposons désormais d'apprendre de nouvelles compétences en ligne !<br>
+            Pour acheter l'un de nos cursus ou l'une de nos leçons, vous devrez être connecté et avoir vérifié votre adresse mail. <br>
+            Pour chaque cursus complété, recevez une certification.
+        </p>
+    </section>
+
+    <section>
+        <h2>Thèmes proposés :</h2>
+
+        <ul>
+            <li *ngFor="let topic of topics">
+                <button (click)="goToTopic(topic)">{{ topic.name }}</button>
+            </li>
+        </ul>
+    </section>
+</main>

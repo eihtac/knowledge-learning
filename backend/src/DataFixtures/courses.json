@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Cursus d'initiation à la guitare", 
+        "price": 50,
+        "topic_index": 0
+    }, 
+    {
+        "title": "Cursus d'initiation au piano", 
+        "price": 50,
+        "topic_index": 0
+    },
+    {
+        "title": "Cursus d'initiation au développement web", 
+        "price": 60,
+        "topic_index": 1
+    },
+    {
+        "title": "Cursus d'initiation au jardinage", 
+        "price": 30,
+        "topic_index": 2
+    },
+    {
+        "title": "Cursus d'initiation à la cuisine", 
+        "price": 44,
+        "topic_index": 3
+    },
+    {
+        "title": "Cursus d'initiation à l'art du dressage culinaire", 
+        "price": 48,
+        "topic_index": 3
+    }
+]
