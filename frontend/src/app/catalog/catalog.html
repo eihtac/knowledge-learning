@@ -13,7 +13,7 @@
                     <h3 (click)="course.open = !course.open">{{ course.title }} - {{ course.price }} €</h3>
                     
                     <div *ngIf="isLoggedIn && isVerified">
-                        <button>Acheter</button>
+                        <button (click)="onBuy('course', course.id)">Acheter</button>
                     </div>
                 </div>
 
@@ -22,11 +22,14 @@
                         <h4>{{ lesson.title }} - {{ lesson.price }} €</h4>
 
                         <div *ngIf="isLoggedIn && isVerified">
-                            <button>Acheter</button>
+                            <button (click)="onBuy('lesson', lesson.id)">Acheter</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <div *ngIf="errorMessage" role="alert" class="alert">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" role="status" class="status">{{ successMessage }}</div>
 </main>

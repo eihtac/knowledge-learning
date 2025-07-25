@@ -4,8 +4,6 @@ import { Auth } from '../services/auth';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Topic } from '../models/topic';
-import { Course } from '../models/course';
-import { Lesson } from '../models/lesson';
 
 @Component({
   selector: 'app-catalog',
@@ -19,6 +17,8 @@ export class Catalog implements OnInit {
   user: any = null;
   isLoggedIn: boolean = false;
   isVerified: boolean = false;
+  errorMessage: string = '';
+  successMessage: string = '';
 
   constructor(private catalogService: CatalogService, private auth: Auth, private route: ActivatedRoute) {}
 
@@ -31,10 +31,35 @@ export class Catalog implements OnInit {
     }
 
     const topicToOpen = this.route.snapshot.queryParamMap.get('topic');
+    const paymentStatus = this.route.snapshot.queryParamMap.get('payment');
+    const type = this.route.snapshot.queryParamMap.get('type');
+    const id = this.route.snapshot.queryParamMap.get('id');
+
+    if (paymentStatus === 'cancel') {
+      this.errorMessage = 'Le paiement a été annulé.';
+      setTimeout(() => {
+        this.errorMessage = '';
+      }, 5000);
+    }
+
+    if (paymentStatus === 'success' && type && id) {
+      this.catalogService.confirmPurchase(type, +id).subscribe({
+        next: () => {
+          this.successMessage = 'Paiement réussi !';
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 5000);
+        }, 
+        error: () => {
+          this.errorMessage = 'Erreur lors du paiement';
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 5000);
+        }
+      });
+    }
 
     this.catalogService.getCatalog().subscribe((data: any[]) => {
-      const topicToOpen = this.route.snapshot.queryParamMap.get('topic');
-
       this.catalog = data.map((topic: any) => {
         const open = topicToOpen && topic.name === topicToOpen;
         return {
@@ -46,6 +71,17 @@ export class Catalog implements OnInit {
           }))
         };
       });
+    });
+  }
+
+  onBuy(type: 'lesson' | 'course', id: number): void {
+    this.catalogService.createPaymentSession(type, id).subscribe({
+      next: (res: { id: string; url: string }) => {
+        window.location.href = res.url;
+      }, 
+      error: (err: any) => {
+        alert('Une erreur est survenue pendant le paiement.');
+      }
     });
   }
 }
