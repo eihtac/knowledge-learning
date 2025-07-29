@@ -1,11 +1,12 @@
 <header>
-    <a routerLink="/"><img src="assets/logo.jpg" alt="Logo Knowledge Learning"></a>
+    <a routerLink="/"><img src="assets/images/logo.jpg" alt="Logo Knowledge Learning"></a>
     <nav>
         <ul>
             <li><a routerLink="/">Accueil</a></li>
             <li><a routerLink="/catalog">Formations</a></li>
 
             <ng-container *ngIf="isLoggedIn">
+                <li><a routerLink="/user-lessons">Mes Leçons</a></li>
                 <li><button (click)="logout()">Déconnexion</button></li>
             </ng-container>
 

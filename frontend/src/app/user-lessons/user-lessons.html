@@ -1,0 +1,40 @@
+<main>
+    <h1>Leçons achetées : </h1>
+
+    <div *ngIf="data.length > 0; else noLesson" class="container">
+        <section *ngFor="let topic of data">
+            <h2 (click)="toggleTopic(topic.topic)">{{ topic.topic }}</h2>
+
+            <div *ngIf="openedTopic === topic.topic">
+                <div *ngFor="let course of topic.courses">
+                    <h3 (click)="toggleCourse(course.course)">
+                        {{ course.course }} - 
+                        <img *ngIf="course.completed" src="assets/images/check.png" alt="Cursus complété"/> 
+                        <img *ngIf="!course.completed" src="assets/images/uncheck.png" alt="Cursus non complété"/>
+                    </h3>
+
+                    <div *ngIf="openedCourse === course.course">
+                        <div *ngFor="let lesson of course.lessons">
+                            <h4>
+                                <a [routerLink]="['/lesson', lesson.id]">
+                                    {{ lesson.title }} - 
+                                    <img *ngIf="lesson.completed" src="assets/images/check.png" alt="Leçon complétée"/> 
+                                    <img *ngIf="!lesson.completed" src="assets/images/uncheck.png" alt="Leçon non complétée"/>
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </section>
+    </div>
+
+    <ng-template #noLesson>
+        <p>
+            Vous n'avez encore acheté aucune leçon. 
+            <a routerLink="/catalog">Achetez votre première leçon ici</a>
+        </p>
+    </ng-template>
+
+    <div *ngIf="errorMessage" role="alert" class="alert">{{ errorMessage }}</div>
+</main>

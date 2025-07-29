@@ -34,6 +34,7 @@ class LessonFixtures extends Fixture implements DependentFixtureInterface
 
             $course = $this->getReference(CourseFixtures::COURSE_REFERENCE_PREFIX . $data['course_index'], Course::class);
             $lesson->setCourse($course);
+            $course->addLesson($lesson);
 
             $manager->persist($lesson);
         }

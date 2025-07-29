@@ -42,6 +42,13 @@ export class Auth {
         const payload = token.split('.')[1];
         try {
             const decoded = JSON.parse(atob(payload));
+            const now = Math.floor(Date.now() / 1000);
+
+            if (decoded.exp && decoded.exp < now) {
+                this.logout();
+                return null;
+            }
+
             sessionStorage.setItem('user', JSON.stringify(decoded));
             return decoded;
         } catch (error) {
