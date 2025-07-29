@@ -34,6 +34,7 @@ class CourseFixtures extends Fixture implements DependentFixtureInterface
 
             $topic = $this->getReference(TopicFixtures::TOPIC_REFERENCE_PREFIX . $data['topic_index'], Topic::class);
             $course->setTopic($topic);
+            $topic->addCourse($course);
 
             $manager->persist($course);
 
