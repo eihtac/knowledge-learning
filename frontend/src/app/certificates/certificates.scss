@@ -1,0 +1,34 @@
+.container {
+    width: 50%;
+
+    section {
+        border: 1px solid #00497c;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #0074c717;
+
+        h2 {
+            color: #0074c7;
+        }
+
+        h3 {
+            color: #00497c;
+        }
+
+        h2:hover, h3:hover {
+            cursor: pointer;
+        }
+        
+        strong, h4 {
+            color: #384050;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}

@@ -1,0 +1,41 @@
+<main>
+    <h1>Certifications obtenues : </h1>
+
+    <div *ngIf="certificates.length > 0; else noCertificate" class="container">
+        <section *ngFor="let cert of certificates">
+            <h2 (click)="toggleTopic(cert.topicTitle)">
+                {{ cert.topicTitle }} - 
+                <img src="assets/images/check.png" alt="Certification obtenue"/> 
+            </h2>
+
+            <div *ngIf="openedTopic === cert.topicTitle">
+                <p><strong>Certification obtenue le : {{ cert.obtainedAt }}</strong></p>
+            
+                <p>Cursus validés dans ce thème :</p>
+
+                <div *ngFor="let course of cert.courses">
+                    <h3 (click)="toggleCourse(course.courseTitle)">{{ course.courseTitle }}</h3>
+
+                    <div *ngIf="openedCourse === course.courseTitle">
+                        <p>Leçons du cursus : </p>
+    
+                        <div *ngFor="let lesson of course.lessons">
+                            <h4>
+                                {{ lesson }} 
+                            </h4>
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+        </section>
+    </div>
+
+    <ng-template #noCertificate>
+        <p>
+            Vous n'avez encore obtenu aucune certification. 
+            <a routerLink="/catalog">Parcourez les thèmes disponibles</a>
+        </p>
+    </ng-template>
+
+    <div *ngIf="errorMessage" role="alert" class="alert">{{ errorMessage }}</div>
+</main>

@@ -6,7 +6,8 @@
             <li><a routerLink="/catalog">Formations</a></li>
 
             <ng-container *ngIf="isLoggedIn">
-                <li><a routerLink="/user-lessons">Mes Leçons</a></li>
+                <li><a routerLink="/user-lessons">Leçons achetées</a></li>
+                <li><a routerLink="/certificates">Certifications</a></li>
                 <li><button (click)="logout()">Déconnexion</button></li>
             </ng-container>
 

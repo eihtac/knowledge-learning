@@ -19,7 +19,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class UserLessonsController extends AbstractController
 {
     #[Route('/api/user/lessons', name: 'app_user_lessons', methods: ['GET'])]
-    public function getUserLessons(PurchaseRepository $purchaseRepository, CompletedLessonRepository $completedLessonRepository, CompletedCourseRepository $completedCourseRepository, LessonRepository $lessonRepository, Security $security): JsonResponse
+    public function getUserLessons(PurchaseRepository $purchaseRepository, CompletedLessonRepository $completedLessonRepository, CompletedCourseRepository $completedCourseRepository, CertificateRepository $certificateRepository, LessonRepository $lessonRepository, Security $security): JsonResponse
     {
         $user = $security->getUser();
 
@@ -94,7 +94,20 @@ class UserLessonsController extends AbstractController
                 $formattedCourses[] = ['course' => $courseTitle, 'completed' => $courseCompleted, 'lessons' => array_values($lessons)];
             }
 
-            $final[] = ['topic' => $topicTitle, 'courses' => $formattedCourses];
+            $firstCourse = reset($formattedCourses);
+            $topicCompleted = false;
+
+            if ($firstCourse) {
+                $firstLesson = reset($courses[$firstCourse['course']]);
+                $lesson = $lessonRepository->find($firstLesson['id']);
+                $topic = $lesson?->getCourse()?->getTopic();
+
+                if ($topic) {
+                    $topicCompleted = $certificateRepository->findOneBy(['user' => $user, 'topic' => $topic]) !== null;
+                }
+            }
+
+            $final[] = ['topic' => $topicTitle, 'completed' => $topicCompleted, 'courses' => $formattedCourses];
         }
 
         return $this->json($final);

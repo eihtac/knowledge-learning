@@ -41,6 +41,7 @@ security:
         - { path: ^/api/payment, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/user/lessons, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/user/lesson/\d+, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/user/certificates, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
