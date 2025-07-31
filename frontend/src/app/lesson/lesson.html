@@ -1,12 +1,14 @@
-<main *ngIf="lesson">
-    <h1>{{ lesson.title }}</h1>
+<main>
+    <div *ngIf="lesson" class="container">
+        <h1>{{ lesson.title }}</h1>
 
-    <p>{{ lesson.content }}</p>
+        <p>{{ lesson.content }}</p>
 
-    <iframe [src]="convertToEmbedUrl(lesson.videoUrl) | safeUrl" frameborder="0" allowfullscreen></iframe>
+        <iframe [src]="convertToEmbedUrl(lesson.videoUrl) | safeUrl" frameborder="0" allowfullscreen></iframe>
 
-    <label for="completed">Leçon complétée ?</label>
-    <input id="completed" type="checkbox" [checked]="lesson.completed" [disabled]="lesson.completed" (change)="setCompleted()"/>
+        <label for="completed">Leçon complétée ?</label>
+        <input id="completed" type="checkbox" [checked]="lesson.completed" [disabled]="lesson.completed" (change)="setCompleted()"/>
+    </div>
 
     <div *ngIf="errorMessage" role="alert" class="alert">{{ errorMessage }}</div>
 </main>

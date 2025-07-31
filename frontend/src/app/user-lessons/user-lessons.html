@@ -3,7 +3,10 @@
 
     <div *ngIf="data.length > 0; else noLesson" class="container">
         <section *ngFor="let topic of data">
-            <h2 (click)="toggleTopic(topic.topic)">{{ topic.topic }}</h2>
+            <h2 (click)="toggleTopic(topic.topic)">
+                {{ topic.topic }} 
+                <img *ngIf="topic.completed" src="assets/images/check.png" alt="Thème complété"/> 
+            </h2>
 
             <div *ngIf="openedTopic === topic.topic">
                 <div *ngFor="let course of topic.courses">
