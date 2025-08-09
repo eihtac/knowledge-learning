@@ -1,0 +1,321 @@
+<main>
+    <h1>Back-Office</h1>
+
+    <div *ngIf="errorMessage" role="alert" class="alert">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" role="status" class="status">{{ successMessage }}</div>
+    
+    <section>
+        <div class="inline">
+            <h2 (click)="showLessonsSection = !showLessonsSection">Gestion des formations :</h2>
+            <button (click)="showAddForm = true" class="add-btn"><img src="assets/images/add.png" alt="Ajouter"></button>
+        </div>
+
+        <div *ngIf="showLessonsSection" class="section">
+            <section *ngFor="let topic of topics">
+                <div class="inline">
+                    <h3 (click)="toggleTopic(topic.id)">{{ topic.name }}</h3>
+                    <button (click)="onEditTopic(topic)" class="edit-btn"><img src="assets/images/edit.png" alt="Modifier"></button>
+                    <button (click)="openDeleteConfirmation('topic', topic.id)" class="delete-btn"><img src="assets/images/delete.png" alt="Supprimer"></button>
+                </div>
+
+                <div *ngIf="openedTopicId === topic.id">
+                    <div *ngFor="let course of topic.courses">
+                        <div class="inline">
+                            <h4 (click)="toggleCourse(course.id)">{{ course.title }} - {{ course.price }} €</h4>
+                            <button (click)="onEditCourse(course)" class="edit-btn"><img src="assets/images/edit.png" alt="Modifier"></button>
+                            <button (click)="openDeleteConfirmation('course', course.id)" class="delete-btn"><img src="assets/images/delete.png" alt="Supprimer"></button>
+                        </div>
+
+                        <div *ngIf="openedCourseId === course.id">
+                            <div *ngFor="let lesson of course.lessons" class="inline">
+                                <h5>{{ lesson.title }} - {{ lesson.price }} €</h5>
+                                <button (click)="onEditLesson(lesson)" class="edit-btn"><img src="assets/images/edit.png" alt="Modifier"></button>
+                                <button (click)="openDeleteConfirmation('lesson', lesson.id)" class="delete-btn"><img src="assets/images/delete.png" alt="Supprimer"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section>
+        <div class="inline">
+            <h2 (click)="showUsersSection = !showUsersSection">Gestion des utilisateurs :</h2>
+            <button (click)="showAddUserForm = true" class="add-btn"><img src="assets/images/add.png" alt="Ajouter"></button>
+        </div>
+
+        <div *ngIf="showUsersSection" class="section">
+            <div *ngFor="let user of users">
+                <div class="inline">
+                    <h3>{{ user.name }} - </h3>
+                    <p>{{ user.email }} - </p>
+                    <p *ngIf="user.roles.includes('ROLE_ADMIN')">Administrateur - </p>
+                    <p *ngIf="user.roles.includes('ROLE_CUSTOMER')">Client - </p>
+                    <p *ngIf="user.isVerified">Vérifié</p>
+                    <p *ngIf="!user.isVerified">Non vérifié</p>
+                    <button (click)="onEditUser(user)" class="edit-btn"><img src="assets/images/edit.png" alt="Modifier"></button>
+                    <button (click)="openDeleteConfirmation('user', user.id)" class="delete-btn"><img src="assets/images/delete.png" alt="Supprimer"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="inline">
+            <h2 (click)="showPurchasesSection = !showPurchasesSection">Gestion des achats :</h2>
+            <button (click)="showAddPurchaseForm = true" class="add-btn"><img src="assets/images/add.png" alt="Ajouter"></button>
+        </div>
+
+        <div *ngIf="showPurchasesSection" class="section">
+            <div *ngFor="let purchase of purchases">
+                <div class="inline">
+                    <h3>{{ purchase.customer.name }} - </h3>
+                    <p *ngIf="purchase.lesson">{{ purchase.lesson.title }}</p>
+                    <p *ngIf="purchase.course">{{ purchase.course.title }}</p>
+                    <button (click)="onEditPurchase(purchase)" class="edit-btn"><img src="assets/images/edit.png" alt="Modifier"></button>
+                    <button (click)="openDeleteConfirmation('purchase', purchase.id)" class="delete-btn"><img src="assets/images/delete.png" alt="Supprimer"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal" *ngIf="editingTopic || editingCourse || editingLesson || editingUser || editingPurchase">
+        <div class="modal-content">
+            <h2 *ngIf="editingTopic">Modifier le thème</h2>
+            <h2 *ngIf="editingCourse">Modifier le cursus</h2>
+            <h2 *ngIf="editingLesson">Modifier la leçon</h2>
+            <h2 *ngIf="editingUser">Modifier l'utilisateur</h2>
+            <h2 *ngIf="editingPurchase">Modifier l'achat</h2>
+
+            <ng-container *ngIf="editingTopic">
+                <label for="topicName">Nom du thème : </label>
+                <input id="topicName" type="text" [(ngModel)]="editingTopic.name"/>
+            </ng-container>
+
+            <ng-container *ngIf="editingCourse">
+                <label for="courseTitle">Titre du cursus : </label>
+                <input id="courseTitle" type="text" [(ngModel)]="editingCourse.title"/>
+
+                <label for="coursePrice">Prix : </label>
+                <input id="coursePrice" type="number" [(ngModel)]="editingCourse.price"/>
+
+                <label for="courseTopic">Thème : </label>
+                <select id="courseTopic" [(ngModel)]="editingCourse.topicId">
+                    <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.name }}</option>
+                </select>
+            </ng-container>
+
+            <ng-container *ngIf="editingLesson">
+                <label for="lessonTitle">Titre de la leçon : </label>
+                <input id="lessonTitle" type="text" [(ngModel)]="editingLesson.title"/>
+
+                <label for="lessonPrice">Prix : </label>
+                <input id="lessonPrice" type="number" [(ngModel)]="editingLesson.price"/>
+
+                <label for="lessonContent">Contenu : </label>
+                <textarea id="lessonContent" [(ngModel)]="editingLesson.content"></textarea>
+
+                <label for="lessonVideoUrl">URL de la vidéo : </label>
+                <input id="lessonVideoUrl" type="text" [(ngModel)]="editingLesson.videoUrl"/>
+
+                <label for="lessonCourse">Cursus : </label>
+                <select id="lessonCourse" [(ngModel)]="editingLesson.courseId">
+                    <option *ngFor="let course of allCourses" [value]="course.id">{{ course.topicName }} - {{ course.title }}</option>
+                </select>
+            </ng-container>
+
+            <ng-container *ngIf="editingUser">
+                <label for="editUserName">Nom :</label>
+                <input id="editUserName" type="text" [(ngModel)]="editingUser.name"/>
+
+                <label for="editUserEmail">Email :</label>
+                <input id="editUserEmail" type="email" [(ngModel)]="editingUser.email"/>
+
+                <label for="editUserPassword">Mot de passe (optionnel) :</label>
+                <input id="editUserPassword" type="password" [(ngModel)]="editingUser.password"/>
+
+                <label for="editUserRole">Rôle :</label>
+                <select id="editUserRole" [(ngModel)]="editingUser.roles[0]">
+                    <option value="ROLE_CUSTOMER">Client</option>
+                    <option value="ROLE_ADMIN">Administrateur</option>
+                </select>
+
+                <label for="editUserVerified">Vérifié :</label>
+                <input id="editUserVerified" type="checkbox" [(ngModel)]="editingUser.isVerified"/>
+            </ng-container>
+
+            <ng-container *ngIf="editingPurchase">
+                <label for="editPurchaseCustomer">Client : </label>
+                <select id="editPurchaseCustomer" [(ngModel)]="editingPurchase.customerId">
+                    <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+                </select>
+
+                <label for="editPurchaseType">Type d'achat :</label>
+                <select id="editPurchaseType" [(ngModel)]="purchaseType" (ngModelChange)="purchaseType === 'lesson' ? (editingPurchase.courseId = null) : (editingPurchase.lessonId = null)">
+                    <option value="">-- Choisir le type --</option>
+                    <option value="lesson">Leçon</option>
+                    <option value="course">Cursus</option>
+                </select>
+
+                <div *ngIf="purchaseType === 'lesson'">
+                    <label for="editPurchaseLesson">Leçon :</label>
+                    <select id="editPurchaseLesson" [(ngModel)]="editingPurchase.lessonId" (ngModelChange)="editingPurchase.courseId = null">
+                        <option *ngFor="let lesson of allLessons" [value]="lesson.id">{{ lesson.title }}</option>
+                    </select>
+                </div>
+
+                <div *ngIf="purchaseType === 'course'">
+                    <label for="editPurchaseCourse">Cursus :</label>
+                    <select id="editPurchaseCourse" [(ngModel)]="editingPurchase.courseId" (ngModelChange)="editingPurchase.lessonId = null">
+                        <option *ngFor="let course of allCourses" [value]="course.id">{{ course.title }}</option>
+                    </select>
+                </div>
+            </ng-container>
+            
+            <div class="modal-buttons">
+                <button (click)="cancelEdit()">Annuler</button>
+                <button *ngIf="editingTopic" (click)="saveTopic()">Modifier</button>
+                <button *ngIf="editingCourse" (click)="saveCourse()">Modifier</button>
+                <button *ngIf="editingLesson" (click)="saveLesson()">Modifier</button>
+                <button *ngIf="editingUser" (click)="saveUser()">Modifier</button>
+                <button *ngIf="editingPurchase" (click)="savePurchase()">Modifier</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" *ngIf="confirmDelete">
+        <div class="modal-content">
+            <h2>Confirmation</h2>
+
+            <p>Voulez-vous vraiment supprimer {{ confirmDelete.name }} ?</p>
+
+            <div class="modal-buttons">
+                <button (click)="cancelDelete()">Annuler</button>
+                <button (click)="confirmDeleting()">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" *ngIf="showAddForm">
+        <div class="modal-content">
+            <h2>Ajouter un élément</h2>
+
+            <label for="addType">Type d'élément :</label>
+            <select id="addType" [(ngModel)]="selectedAddType">
+                <option value="">-- Choisir --</option>
+                <option value="topic">Thème</option>
+                <option value="course">Cursus</option>
+                <option value="lesson">Leçon</option>
+            </select> <br>
+
+            <ng-container *ngIf="selectedAddType === 'topic'">
+                <label for="newTopicName">Nom du thème :</label>
+                <input id="newTopicName" type="text" [(ngModel)]="newTopic.name"/>
+            </ng-container>
+
+            <ng-container *ngIf="selectedAddType === 'course'">
+                <label for="newCourseTitle">Titre du cursus :</label>
+                <input id="newCourseTitle" type="text" [(ngModel)]="newCourse.title"/>
+
+                <label for="newCoursePrice">Prix :</label>
+                <input id="newCoursePrice" type="number" [(ngModel)]="newCourse.price"/>
+
+                <label for="newCourseTopic">Thème :</label>
+                <select id="newCourseTopic" [(ngModel)]="newCourse.topicId">
+                    <option *ngFor="let topic of topics" [value]="topic.id">{{ topic.name }}</option>
+                </select>
+            </ng-container>
+
+            <ng-container *ngIf="selectedAddType === 'lesson'">
+                <label for="newLessonTitle">Titre de la leçon :</label>
+                <input id="newLessonTitle" type="text" [(ngModel)]="newLesson.title"/>
+
+                <label for="newLessonPrice">Prix :</label>
+                <input id="newLessonPrice" type="number" [(ngModel)]="newLesson.price"/>
+
+                <label for="newLessonContent">Contenu :</label>
+                <textarea id="newLessonContent" [(ngModel)]="newLesson.content"></textarea>
+
+                <label for="newLessonVideoUrl">URL de la vidéo :</label>
+                <input id="newLessonVideoUrl" type="text" [(ngModel)]="newLesson.videoUrl"/>
+
+                <label for="newLessonCourse">Cursus :</label>
+                <select id="newLessonCourse" [(ngModel)]="newLesson.courseId">
+                    <option *ngFor="let course of allCourses" [value]="course.id">{{ course.topicName }} - {{ course.title }}</option>
+                </select>
+            </ng-container>
+
+            <div class="modal-buttons">
+                <button (click)="cancelAdd()">Annuler</button>
+                <button (click)="confirmAdd()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" *ngIf="showAddUserForm">
+        <div class="modal-content">
+            <h2>Ajouter un utilisateur</h2>
+            
+            <label for="newUserName">Nom :</label>
+            <input id="newUserName" type="text" [(ngModel)]="newUser.name"/>
+
+            <label for="newUserEmail">Email :</label>
+            <input id="newUserEmail" type="email" [(ngModel)]="newUser.email"/>
+
+            <label for="newUserPassword">Mot de passe :</label>
+            <input id="newUserPassword" type="password" [(ngModel)]="newUser.password"/>
+
+            <label for="newUserRole">Rôle :</label>
+            <select id="newUserRole" [(ngModel)]="newUser.roles[0]">
+                <option value="ROLE_CUSTOMER">Client</option>
+                <option value="ROLE_ADMIN">Administrateur</option>
+            </select>
+
+            <label for="newUserVerified">Vérifié :</label>
+            <input id="newUserVerified" type="checkbox" [(ngModel)]="newUser.isVerified"/>
+
+            <div class="modal-buttons">
+                <button (click)="cancelAdd()">Annuler</button>
+                <button (click)="confirmAdd()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" *ngIf="showAddPurchaseForm">
+        <div class="modal-content">
+            <h2>Ajouter un achat</h2>
+
+            <label for="addPurchaseCustomer">Client : </label>
+            <select id="addPurchaseCustomer" [(ngModel)]="newPurchase.customerId">
+                <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+            </select>
+
+            <label for="addPurchaseType">Type d'achat :</label>
+            <select id="addPurchaseType" [(ngModel)]="purchaseType" (ngModelChange)="purchaseType === 'lesson' ? (newPurchase.courseId = undefined) : (newPurchase.lessonId = undefined)">
+                <option value="">-- Choisir le type --</option>
+                <option value="lesson">Leçon</option>
+                <option value="course">Cursus</option>
+            </select>
+
+            <div *ngIf="purchaseType === 'lesson'">
+                <label for="addPurchaseLesson">Leçon :</label>
+                <select id="addPurchaseLesson" [(ngModel)]="newPurchase.lessonId" (ngModelChange)="newPurchase.courseId = undefined">
+                    <option *ngFor="let lesson of allLessons" [value]="lesson.id">{{ lesson.title }}</option>
+                </select>
+            </div>
+
+            <div *ngIf="purchaseType === 'course'">
+                <label for="addPurchaseCourse">Cursus :</label>
+                <select id="addPurchaseCourse" [(ngModel)]="newPurchase.courseId" (ngModelChange)="newPurchase.lessonId = undefined">
+                    <option *ngFor="let course of allCourses" [value]="course.id">{{ course.title }}</option>
+                </select>
+            </div>
+
+            <div class="modal-buttons">
+                <button (click)="cancelAdd()">Annuler</button>
+                <button (click)="confirmAdd()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</main>

@@ -7,6 +7,7 @@ import { Catalog } from './catalog/catalog';
 import { UserLessons } from './user-lessons/user-lessons';
 import { Lesson } from './lesson/lesson';
 import { Certificates } from './certificates/certificates';
+import { Admin } from './admin/admin';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -16,5 +17,6 @@ export const routes: Routes = [
     { path: 'catalog', component: Catalog },
     { path: 'user-lessons', component: UserLessons },
     { path: 'lesson/:id', component: Lesson },
-    { path: 'certificates', component: Certificates }
+    { path: 'certificates', component: Certificates },
+    { path: 'admin', component: Admin }
 ];
