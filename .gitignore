@@ -33,6 +33,7 @@
 /frontend/yarn-error.log*
 
 # Symfony
+/backend/.env.test
 /backend/.env.local
 /backend/.env.local.php
 /backend/.env.*.local
