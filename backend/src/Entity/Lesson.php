@@ -21,7 +21,7 @@ class Lesson
     private ?float $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Course $course = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: false)]

@@ -11,13 +11,13 @@ import { CommonModule } from '@angular/common';
   styleUrl: './header.scss'
 })
 export class Header implements OnInit {
-  isLoggedIn = false;
+  user: any = null;
 
   constructor(private auth: Auth, private router: Router) {}
 
   ngOnInit(): void {
-    this.auth.isLoggedIn$.subscribe((status) => {
-      this.isLoggedIn = status;
+    this.auth.isLoggedIn$.subscribe(() => {
+      this.user = this.auth.getUser();
     });
   }
 
