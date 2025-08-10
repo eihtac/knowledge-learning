@@ -10,7 +10,7 @@ use Stripe\Stripe;
 
 class StripeService
 {
-    public function __construct(private readonly string $stripeSecretKey, private readonly EntityManagerInterface $entityManager)
+    public function __construct(private readonly string $stripeSecretKey, private readonly EntityManagerInterface $entityManager, private readonly string $frontendUrl)
     {
         Stripe::setApiKey($this->stripeSecretKey);
     }
@@ -34,8 +34,8 @@ class StripeService
         $name = $product->getTitle();
         $amount = (int)($product->getPrice() * 100);
 
-        $successUrl = "http://localhost:4200/catalog?payment=success&type=$type&id=$id";
-        $cancelUrl = "http://localhost:4200/catalog?payment=cancel";
+        $successUrl = $this->frontendUrl . "/catalog?payment=success&type=$type&id=$id";
+        $cancelUrl = $this->frontendUrl . "/catalog?payment=cancel";
 
         return Session::create([
             'payment_method_types' => ['card'],

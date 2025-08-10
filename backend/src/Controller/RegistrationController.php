@@ -19,7 +19,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
+    public function __construct(private EmailVerifier $emailVerifier, private string $frontendUrl)
     {}
 
     #[Route('/api/register', name: 'app_register', methods: ['POST'])]
@@ -82,24 +82,24 @@ class RegistrationController extends AbstractController
         $userId = $request->query->get('id');
 
         if (!$userId) {
-            return $this->redirect('http://localhost:4200/');
+            return $this->redirect($this->frontendUrl);
         }
 
         $user = $entityManager->getRepository(User::class)->find($userId);
         if (!$user) {
-            return $this->redirect('http://localhost:4200/');
+            return $this->redirect($this->frontendUrl);
         }
 
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $e) {
-            return $this->redirect('http://localhost:4200/login?error= Le lien de confirmation est invalide ou expiré');
+            return $this->redirect($this->frontendUrl . '/login?error= Le lien de confirmation est invalide ou expiré');
         }
 
         $user->setIsVerified(true);
         $entityManager->flush();
 
-        return $this->redirect('http://localhost:4200/login?message= Votre compte a bien été activé ! Merci');
+        return $this->redirect($this->frontendUrl . '/login?message= Votre compte a bien été activé ! Merci');
     }
 
     #[Route('/api/resend-verification', name: 'app_resend_verification', methods: ['POST'])]

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-resend-verification',
@@ -24,7 +25,7 @@ export class ResendVerification {
   onSubmit(): void {
     if (this.form.invalid) return;
 
-    this.http.post('http://localhost:8000/api/resend-verification', this.form.value).subscribe({
+    this.http.post(environment.apiUrl + '/resend-verification', this.form.value).subscribe({
       next: (res: any) => {
         this.message = res.message;
         this.error = '';

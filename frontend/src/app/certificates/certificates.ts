@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Certificate } from '../models/certificate';
 import { CommonModule } from '@angular/common';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-certificates',
@@ -15,7 +16,7 @@ export class Certificates implements OnInit {
   openedTopic: string | null = null;
   openedCourse: string | null = null;
   errorMessage = '';
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
