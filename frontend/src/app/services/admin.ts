@@ -6,12 +6,13 @@ import { Course } from '../models/course';
 import { Lesson } from '../models/lesson';
 import { User } from '../models/user';
 import { Purchase } from '../models/purchase';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
